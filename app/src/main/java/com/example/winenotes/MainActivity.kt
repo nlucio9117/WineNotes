@@ -8,14 +8,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.winenotes.database.AppDatabase
 import com.example.winenotes.database.Note
 import com.example.winenotes.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var adapter: MyAdapter
-    private val notes = mutableListOf<Note>()
+    private val notes = mutableListOf<Note>()//mutable list that holds Note objects
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +38,24 @@ class MainActivity : AppCompatActivity() {
         adapter = MyAdapter()
         binding.recyclerview.setAdapter(adapter)
 
+        loadAllNotes()
+
     }//this ends the onCreate function
+
+    private fun loadAllNotes() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(applicationContext)
+            val dao = db.noteDao()
+            val results = dao.getAllNotes()
+
+            withContext(Dispatchers.Main) {
+                notes.clear()
+                notes.addAll(results)
+                adapter.notifyDataSetChanged()
+            }//this ends withContext
+
+        }//this ends CoroutineScope
+    }//this ends loadAllNotes function
 
     inner class MyViewHolder(val view: TextView) :
         RecyclerView.ViewHolder(view) {
