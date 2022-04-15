@@ -1,8 +1,11 @@
 package com.example.winenotes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -56,6 +59,25 @@ class MainActivity : AppCompatActivity() {
 
         }//this ends CoroutineScope
     }//this ends loadAllNotes function
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }//this ends onCreateOptionsMenu
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_sortBy_title) {
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+
+
 
     inner class MyViewHolder(val view: TextView) :
         RecyclerView.ViewHolder(view) {
