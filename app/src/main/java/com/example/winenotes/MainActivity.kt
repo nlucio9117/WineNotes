@@ -1,5 +1,6 @@
 package com.example.winenotes
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,15 +71,42 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_add_newNote) {
-            val intent = Intent(this, NoteActivity::class.java)
-            startActivity(intent)
+            addNewNote()
             return true
-        }//this ends if statement
+        } else if (item.itemId == R.id.menu_sortBy_title) {
+            sortByTitle()
+            return true
+        } else if (item.itemId == R.id.menu_sortBy_date) {
+            sortByDate()
+            return true
+        }//this ends final else if statement
         return super.onOptionsItemSelected(item)
     }//this ends onOptionsItemSelected
 
+    private fun sortByDate() {
+        TODO("Not yet implemented")
+    }
 
+    private fun sortByTitle() {
+        TODO("Not yet implemented")
+    }
 
+    private val startForAddResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result : ActivityResult ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+
+            }
+        }
+    private fun addNewNote() {
+        val intent = Intent(applicationContext, NoteActivity::class.java)
+        intent.putExtra(
+            getString(R.string.intent_purpose_key),
+            getString(R.string.intent_purpose_add_note)
+        )
+        startForAddResult.launch(intent)
+    }
 
 
     inner class MyViewHolder(val view: TextView) :
