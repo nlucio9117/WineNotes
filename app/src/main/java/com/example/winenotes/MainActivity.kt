@@ -67,13 +67,13 @@ class MainActivity : AppCompatActivity() {
     }//this ends onCreateOptionsMenu
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_sortBy_title) {
+        if (item.itemId == R.id.menu_add_newNote) {
             val intent = Intent(this, NoteActivity::class.java)
             startActivity(intent)
             return true
-        }
+        }//this ends if statement
         return super.onOptionsItemSelected(item)
-    }
+    }//this ends onOptionsItemSelected
 
 
 
