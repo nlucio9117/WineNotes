@@ -31,7 +31,16 @@ class NoteActivity : AppCompatActivity() {
                 "Please enter a new note", Toast.LENGTH_LONG
             ).show()
             return
-        }//this ends if statement
+        } //this ends if statement
+
+        val title = binding.editTextNoteTitle.getText().toString().trim()
+        if (title.isEmpty()) {
+            Toast.makeText(
+                applicationContext,
+                "Please enter a title", Toast.LENGTH_LONG
+            ).show()
+            return
+        } //this ends if statement
         super.onBackPressed()
     }//this ends onBackPressed function
 
