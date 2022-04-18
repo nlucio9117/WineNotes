@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         //updates data inside viewholder
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val note = notes[position]
-            holder.view.setText("${note.title}, ${note.notes}")
+            holder.view.setText("${note.title}: ${note.notes}")
         }//this ends onBindViewHolder
 
         //returns the size of data
