@@ -43,9 +43,10 @@ class NoteActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     binding.editTextNoteTitle.setText(note.title)
                     binding.editTextNewNote.setText(note.notes)
-                }
-            }
+                }//this ends withContext
+            }//this ends Coroutine
         }//this ends if statement
+
         setTitle("${purpose} New Note")
 
     }//this ends the onCreate function
@@ -75,8 +76,6 @@ class NoteActivity : AppCompatActivity() {
             val noteDao = AppDatabase.getDatabase(applicationContext)
                 .noteDao()
 
-            var noteId : Long
-
             if (purpose.equals(getString(R.string.intent_purpose_add_note))) {
                 //add new note to the database
                 //when adding, set primary key (id) to 0
@@ -85,7 +84,9 @@ class NoteActivity : AppCompatActivity() {
                 Log.i("STATUS_NOTE", "inserted new note: ${note}")
             } else {
                 //update current note in the database
-                TODO("Not implemented")
+                val note = Note(noteId, title, newNote, date)
+                noteDao.updateNote(note)
+                Log.i("STATUS", "updated existing note: ${note}")
             }//this ends the else statement
 
             Log.i("STATUS_NOTE", "result_id: ${noteId}")
