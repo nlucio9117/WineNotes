@@ -25,6 +25,12 @@ interface NoteDao {
     @Delete
     fun deleteNote(note: Note)
 
+    /**
+     * Deletes EVERYTHING in the table
+     */
+    @Query("DELETE FROM note")
+    fun deleteAllNotes()
+
     @Query("SELECT * FROM note ORDER BY title ASC")
     fun getAllNotes(): List<Note>
 

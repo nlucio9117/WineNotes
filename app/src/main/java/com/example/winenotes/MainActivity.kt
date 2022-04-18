@@ -74,6 +74,9 @@ class MainActivity : AppCompatActivity() {
         if (item.itemId == R.id.menu_add_newNote) {
             addNewNote()
             return true
+        } else if (item.itemId == R.id.menu_deleteAll_notes) {
+            deleteAllNotes()
+            return true
         } else if (item.itemId == R.id.menu_sortBy_title) {
             sortByTitle()
             return true
@@ -83,6 +86,27 @@ class MainActivity : AppCompatActivity() {
         }//this ends final else if statement
         return super.onOptionsItemSelected(item)
     }//this ends onOptionsItemSelected
+
+    private fun deleteAllNotes() {
+        val builder = AlertDialog.Builder(this)
+            .setTitle("Confirm delete")
+            .setMessage("Are you sure you want to delete all notes?")
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok) {
+                    dialogInterface, whichButton ->
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    AppDatabase.getDatabase(applicationContext)
+                        .noteDao()
+                        .deleteAllNotes()
+
+                    // reload the whole database
+                    // good only for small databases
+                    loadAllNotes()
+                }//this ends coroutine
+            }//this ends setPositiveButton
+        builder.show()
+    }//this ends deleteNote function
 
     private fun sortByDate() {
         TODO("Not yet implemented")
@@ -128,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         init {
             view.setOnClickListener(this)
             view.setOnLongClickListener(this)
-        }
+        }//this ends init block
 
         override fun onClick(view: View?) {
             val intent = Intent(applicationContext, NoteActivity::class.java)
@@ -165,8 +189,8 @@ class MainActivity : AppCompatActivity() {
                         // reload the whole database
                         // good only for small databases
                         loadAllNotes()
-                    }
-                }
+                    }//this ends coroutine
+                }//this ends setPositiveButton
             builder.show()
 
             return true

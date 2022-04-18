@@ -8,6 +8,10 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/menu_deleteAll_notes"
+        android:title="Delete All Notes" />
+
+    <item
         android:id="@+id/menu_sortBy_title"
         android:title="Sort by title" />
     <item
