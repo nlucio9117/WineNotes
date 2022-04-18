@@ -1,5 +1,10 @@
 package com.example.winenotes
 
+//Author: Natasha Lucio
+//Course: CSCI 4020-W1
+//Date: 18 April 2022
+//Task: Assignment 4
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
