@@ -6,6 +6,7 @@
         android:id="@+id/menu_add_newNote"
         android:title="Add New Note"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/menu_sortBy_title"
         android:title="Sort by title" />
