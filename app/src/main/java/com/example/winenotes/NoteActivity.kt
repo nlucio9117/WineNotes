@@ -17,6 +17,7 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
 
     private var purpose: String? = ""
+    private var noteId : Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,24 @@ class NoteActivity : AppCompatActivity() {
         purpose = intent.getStringExtra(
             getString(R.string.intent_purpose_key)
         )
+
+        if(purpose.equals(getString(R.string.intent_purpose_update_note))) {
+            noteId = intent.getLongExtra(
+                getString(R.string.intent_key_note_id),
+                -1
+            )
+            // load existing note from database
+            CoroutineScope(Dispatchers.IO).launch {
+                val note = AppDatabase.getDatabase(applicationContext)
+                    .noteDao()
+                    .getNote(noteId)
+
+                withContext(Dispatchers.Main) {
+                    binding.editTextNoteTitle.setText(note.title)
+                    binding.editTextNewNote.setText(note.notes)
+                }
+            }
+        }//this ends if statement
         setTitle("${purpose} New Note")
 
     }//this ends the onCreate function

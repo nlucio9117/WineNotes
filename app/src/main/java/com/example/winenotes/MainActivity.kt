@@ -5,10 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -103,6 +100,17 @@ class MainActivity : AppCompatActivity() {
             }//this ends if statement
         }//this ends registerForActivityResult
 
+    private val startForUpdateResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                result : ActivityResult ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                //reload the whole database
+                // good only for small databases
+                loadAllNotes()
+            }
+        }
+
     private fun addNewNote() {
         val intent = Intent(applicationContext, NoteActivity::class.java)
         intent.putExtra(
@@ -110,13 +118,40 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.intent_purpose_add_note)
         )
         startForAddResult.launch(intent)
-    }
-
+    }//this ends function addNewNote
 
     inner class MyViewHolder(val view: TextView) :
-        RecyclerView.ViewHolder(view) {
+        RecyclerView.ViewHolder(view),
+        View.OnClickListener, View.OnLongClickListener {
 
-        }//this ends the MyViewHolder inner class
+        init {
+            view.setOnClickListener(this)
+            view.setOnLongClickListener(this)
+        }
+
+        override fun onClick(view: View?) {
+            val intent = Intent(applicationContext, NoteActivity::class.java)
+
+            intent.putExtra(
+                getString(R.string.intent_purpose_key),
+                getString(R.string.intent_purpose_update_note)
+            )
+
+            val note = notes[adapterPosition]
+            intent.putExtra(
+                getString(R.string.intent_key_note_id),
+                note.id
+            )
+            startForUpdateResult.launch(intent)
+        }//this ends onClick function
+
+        override fun onLongClick(p0: View?): Boolean {
+            TODO("Not yet implemented")
+        }//this ends onLongClick function
+
+
+    }//this ends MyViewHolder class
+
 
     inner class MyAdapter :
         RecyclerView.Adapter<MyViewHolder>() {
