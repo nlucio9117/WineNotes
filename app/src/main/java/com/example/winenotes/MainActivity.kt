@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerview.setAdapter(adapter)
 
         loadAllNotes()
-
     }//this ends the onCreate function
 
     private fun loadAllNotes() {
@@ -53,6 +53,9 @@ class MainActivity : AppCompatActivity() {
             val db = AppDatabase.getDatabase(applicationContext)
             val dao = db.noteDao()
             val results = dao.getAllNotes()
+            for (note in results) {
+                Log.i("STATUS_MAIN", "read ${note}")
+            }
 
             withContext(Dispatchers.Main) {
                 notes.clear()
@@ -96,9 +99,10 @@ class MainActivity : AppCompatActivity() {
             result : ActivityResult ->
 
             if (result.resultCode == Activity.RESULT_OK) {
+                loadAllNotes()
+            }//this ends if statement
+        }//this ends registerForActivityResult
 
-            }
-        }
     private fun addNewNote() {
         val intent = Intent(applicationContext, NoteActivity::class.java)
         intent.putExtra(

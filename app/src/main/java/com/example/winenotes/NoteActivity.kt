@@ -1,5 +1,6 @@
 package com.example.winenotes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import com.example.winenotes.databinding.ActivityNoteBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
@@ -54,21 +56,35 @@ class NoteActivity : AppCompatActivity() {
             val noteDao = AppDatabase.getDatabase(applicationContext)
                 .noteDao()
 
-            var resultId : Long
+            var noteId : Long
 
             if (purpose.equals(getString(R.string.intent_purpose_add_note))) {
                 //add new note to the database
                 //when adding, set primary key (id) to 0
                 val note = Note(0, title, newNote, date)
-                resultId = noteDao.addNote(note)
+                noteId = noteDao.addNote(note)
                 Log.i("STATUS_NOTE", "inserted new note: ${note}")
             } else {
                 //update current note in the database
                 TODO("Not implemented")
             }//this ends the else statement
 
+            Log.i("STATUS_NOTE", "result_id: ${noteId}")
+
+            val intent = Intent()
+
+            intent.putExtra(
+                getString(R.string.intent_key_note_id),
+                noteId
+            )
+
+            withContext(Dispatchers.Main) {
+                setResult(RESULT_OK, intent)
+                super.onBackPressed()
+            }//this end withContext
+
         }//this ends the coroutine
-        super.onBackPressed()
+
     }//this ends onBackPressed function
 
 }//this ends the NoteActivity
