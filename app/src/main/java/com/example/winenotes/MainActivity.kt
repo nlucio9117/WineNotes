@@ -108,8 +108,8 @@ class MainActivity : AppCompatActivity() {
                 //reload the whole database
                 // good only for small databases
                 loadAllNotes()
-            }
-        }
+            }//this ends if statement
+        }//this ends registerForActivityResult
 
     private fun addNewNote() {
         val intent = Intent(applicationContext, NoteActivity::class.java)
