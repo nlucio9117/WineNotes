@@ -25,7 +25,7 @@ interface NoteDao {
     @Update
     fun updateNote(note: Note)
 
-    @Query("SELECT * FROM note")
+    @Query("SELECT * FROM note ORDER BY title ASC")
     fun getAllNotes(): List<Note>
 
     @Query("SELECT * FROM note WHERE id = :noteId")
