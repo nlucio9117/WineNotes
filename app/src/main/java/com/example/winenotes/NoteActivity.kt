@@ -54,11 +54,7 @@ class NoteActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val newNote = binding.editTextNewNote.getText().toString().trim()
         if (newNote.isEmpty()) {
-            Toast.makeText(
-                applicationContext,
-                "Please enter a new note", Toast.LENGTH_LONG
-            ).show()
-            return
+            binding.editTextNewNote.setText("")
         } //this ends if statement
 
         val title = binding.editTextNoteTitle.getText().toString().trim()
