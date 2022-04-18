@@ -2,8 +2,14 @@ package com.example.winenotes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import com.example.winenotes.database.AppDatabase
+import com.example.winenotes.database.Note
 import com.example.winenotes.databinding.ActivityNoteBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
@@ -41,6 +47,27 @@ class NoteActivity : AppCompatActivity() {
             ).show()
             return
         } //this ends if statement
+
+        val date = binding.editTextDate.getText().toString().trim()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val noteDao = AppDatabase.getDatabase(applicationContext)
+                .noteDao()
+
+            var resultId : Long
+
+            if (purpose.equals(getString(R.string.intent_purpose_add_note))) {
+                //add new note to the database
+                //when adding, set primary key (id) to 0
+                val note = Note(0, title, newNote, date)
+                resultId = noteDao.addNote(note)
+                Log.i("STATUS_NOTE", "inserted new note: ${note}")
+            } else {
+                //update current note in the database
+                TODO("Not implemented")
+            }//this ends the else statement
+
+        }//this ends the coroutine
         super.onBackPressed()
     }//this ends onBackPressed function
 
