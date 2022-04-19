@@ -160,8 +160,8 @@ class MainActivity : AppCompatActivity() {
         }//this ends init block
 
         override fun onClick(view: View?) {
-            val intent = Intent(applicationContext, NoteActivity::class.java)
 
+            val intent = Intent(applicationContext, NoteActivity::class.java)
             intent.putExtra(
                 getString(R.string.intent_purpose_key),
                 getString(R.string.intent_purpose_update_note)
@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(view!!.context)
                 .setTitle("Confirm delete")
                 .setMessage("Are you sure you want to delete: " +
-                "${note.title} ${note.notes}?")
+                "${note.title}: ${note.notes}?")
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok) {
                     dialogInterface, whichButton ->
@@ -201,9 +201,7 @@ class MainActivity : AppCompatActivity() {
             return true
         }//this ends onLongClick function
 
-
     }//this ends MyViewHolder class
-
 
     inner class MyAdapter :
         RecyclerView.Adapter<MyViewHolder>() {
@@ -227,6 +225,5 @@ class MainActivity : AppCompatActivity() {
         }//this ends getItemCount
 
     }//this ends the MyAdapter inner class
-
 
 }//this ends the entire MainActivity

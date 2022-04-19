@@ -72,6 +72,9 @@ class NoteActivity : AppCompatActivity() {
         } //this ends if statement
 
         val date = binding.editTextDate.getText().toString().trim()
+        if(date.isEmpty()) {
+            binding.editTextDate.setText("")
+        }//this ends if statement
 
         CoroutineScope(Dispatchers.IO).launch {
             val noteDao = AppDatabase.getDatabase(applicationContext)
@@ -93,7 +96,6 @@ class NoteActivity : AppCompatActivity() {
             Log.i("STATUS_NOTE", "result_id: ${noteId}")
 
             val intent = Intent()
-
             intent.putExtra(
                 getString(R.string.intent_key_note_id),
                 noteId
